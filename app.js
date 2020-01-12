@@ -47,7 +47,8 @@ class warGame {
     constructor(players, deck) {
         this.players = players;
         this.deck = deck;
-        this.stack = []
+        this.stack = [];
+        this.warStack = [];
     }
 
     isGameFinished() {
@@ -78,16 +79,19 @@ class warGame {
         }
     }
 
-    checkStateForWar() {
-        if (this.stack.length < 2) {
-            return false;
-        }
-        const maxStackRank = this.stack.map(card => {
+    getMaxStackRank() { this.stack.map(card => {
             return card.rank;
         }).reduce(function (a, b) {
             return Math.max(a, b);
         })
-        
+    }
+
+    checkStateForWar() {
+        if (this.stack.length < 2) {
+            return false;
+        }
+
+        const maxStackRank = this.getMaxStackRank();
         if (this.getCardsFromStackByRank(maxStackRank).length > 1) {
             return true;
         }
@@ -110,7 +114,17 @@ class warGame {
             player.cards.push(card);
         }
     }
+
+    getMinWarLength() {
+        const hasOneCardLeft = (player) => player.cards.length <= 1;
+        if (this.players.some(hasOneCardLeft)) {
+            return 1;
+        }
+        return 2;
+    }
 }
+
+
 
 const deck = createDeck(cardColors, cardValues);
 
@@ -122,3 +136,5 @@ game.setCardOwnership();
 
 console.log(game);
 console.log(game.checkStateForWar())
+
+console.log(game.getMinWarLength())
