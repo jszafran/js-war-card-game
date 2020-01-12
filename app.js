@@ -78,7 +78,31 @@ class warGame {
         }
     }
 
-    
+    checkStateForWar() {
+        if (this.stack.length < 2) {
+            return false;
+        }
+        const maxStackRank = this.stack.map(card => {
+            return card.rank;
+        }).reduce(function (a, b) {
+            return Math.max(a, b);
+        })
+        
+        if (this.getCardsFromStackByRank(maxStackRank).length > 1) {
+            return true;
+        }
+        return false;
+    }
+
+    getPlayerByName(name) {
+        const player = this.players.find(p => (p.name === name))
+        return player;
+    }
+
+    getCardsFromStackByRank(rank) {
+        const cards = this.stack.filter(card => (card.rank === rank)) 
+        return cards;
+    }
 }
 
 
@@ -90,11 +114,6 @@ const game = new warGame(players, deck);
 console.log(game.isGameFinished());
 game.dealCards();
 game.setCardOwnership();
+
 console.log(game);
-
-console.log(`Player ${players[0].name} cards:}`)
-console.log(game.players[0].cards)
-
-
-console.log(`Player ${players[1].name} cards:}`)
-console.log(game.players[1].cards)
+console.log(game.checkStateForWar())
