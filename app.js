@@ -103,9 +103,14 @@ class warGame {
         const cards = this.stack.filter(card => (card.rank === rank)) 
         return cards;
     }
+
+    transferCards(cards, player) {
+        for (card of cards) {
+            card.owner = player.name;
+            player.cards.push(card);
+        }
+    }
 }
-
-
 
 const deck = createDeck(cardColors, cardValues);
 
