@@ -122,6 +122,7 @@ class warGame {
   transferCards(cards, player) {
     for (card of cards) {
       card.owner = player.name;
+      console.log(`Transfering ${card.color}${card.value} to ${player.name}`);
       player.cards.push(card);
     }
   }
@@ -146,4 +147,19 @@ class warGame {
     );
     return winningPlayer;
   }
+
+  transferCardsToWinner() {
+    const winner = this.getGameWinner();
+    this.transferCards(this.stack, winner);
+  }
+}
+
+const deck = createDeck(cardColors, cardValues);
+
+const game = new warGame(players, deck);
+
+let gameFinished = false;
+
+while (!gameFinished) {
+  // game loop
 }
